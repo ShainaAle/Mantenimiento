@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mantenimiento del Plantel - COBAQ 1</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastelPurple: '#e0e7ff',
+                        pastelLilac: '#ddd6fe',
+                        chromeLight: '#f8fafc',
+                        chromeDark: '#94a3b8',
+                        inkBlue: '#312e81',
+                        marginRed: '#fca5a5'
+                    },
+                    boxShadow: {
+                        'paper': '4px 4px 0px 0px rgba(148, 163, 184, 0.3)',
+                        'card': '6px 6px 0px 0px rgba(49, 46, 129, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* FONDO DE CUADRÍCULA ESCOLAR (COMO EN TUS DIAPOSITIVAS) */
+        body {
+            background-color: #f8fafc;
+            background-image: 
+                linear-gradient(to right, #cbd5e1 1px, transparent 1px),
+                linear-gradient(to bottom, #cbd5e1 1px, transparent 1px);
+            background-size: 40px 40px;
+            font-family: 'Outfit', sans-serif;
+            color: #312e81;
+        }
+
+        /* TIPOGRAFÍA TIPO ESCRITURA A MANO PARA TEXTOS */
+        .font-hand {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.25rem;
+            letter-spacing: 0.02em;
+        }
+
+        /* EFECTO DE HOJA DE CUADERNO RAYADA */
+        .ruled-paper {
+            background-color: #ffffff;
+            background-image: linear-gradient(transparent 95%, #cbd5e1 5%);
+            background-size: 100% 2rem;
+            line-height: 2rem;
+            padding: 2rem 2rem 2rem 4rem;
+            border-left: 4px solid #fca5a5; /* Margen rojo */
+            border-radius: 8px;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        /* HOYOS DE LA LIBRETA */
+        .ruled-paper::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 1rem; bottom: 0;
+            width: 1rem;
+            background-image: radial-gradient(circle, #f8fafc 6px, transparent 7px);
+            background-size: 100% 4rem;
+        }
+
+        /* ANIMACIONES FLOTANTES */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        .float-anim { animation: float 4s infinite ease-in-out; }
+        
+        /* TÍTULOS ESTILO METAL/CROMADO */
+        .title-chrome {
+            background: linear-gradient(180deg, #e0e7ff 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(3px 3px 0px #312e81);
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden selection:bg-indigo-300 selection:text-inkBlue">
+
+    <!-- NAVBAR (Estilo Pestañas de Carpeta) -->
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b-2 border-indigo-200 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2 text-inkBlue font-bold text-xl">
+                <i class="fa-solid fa-school text-indigo-400"></i>
+                <span>COBAQ 1 Satélite</span>
+            </div>
+            <div class="hidden md:flex gap-1">
+                <a href="#video" class="px-4 py-2 bg-pastelLilac rounded-t-lg border-2 border-b-0 border-indigo-200 font-bold hover:bg-indigo-200 transition-colors text-sm translate-y-1">Documental</a>
+                <a href="#fase1" class="px-4 py-2 bg-pastelPurple rounded-t-lg border-2 border-b-0 border-indigo-200 font-bold hover:bg-indigo-200 transition-colors text-sm translate-y-1">Fase 1</a>
+                <a href="#fase2" class="px-4 py-2 bg-pastelLilac rounded-t-lg border-2 border-b-0 border-indigo-200 font-bold hover:bg-indigo-200 transition-colors text-sm translate-y-1">Fase 2</a>
+                <a href="#fase3" class="px-4 py-2 bg-pastelPurple rounded-t-lg border-2 border-b-0 border-indigo-200 font-bold hover:bg-indigo-200 transition-colors text-sm translate-y-1">Fase 3 y 4</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PORTADA DEL PROYECTO -->
+    <header class="relative pt-28 pb-16 px-4 flex flex-col items-center justify-center min-h-[60vh]">
+        <!-- Decoraciones Y2K / Stickers -->
+        <div class="absolute top-32 left-[10%] text-indigo-300 text-5xl float-anim opacity-60"><i class="fa-solid fa-certificate"></i></div>
+        <div class="absolute bottom-20 right-[15%] text-purple-300 text-6xl float-anim opacity-60" style="animation-delay: 1s;"><i class="fa-solid fa-sparkles"></i></div>
+
+        <div class="bg-white/90 backdrop-blur border-4 border-indigo-200 p-8 md:p-12 rounded-[2rem] shadow-card text-center max-w-4xl w-full relative z-10">
+            <span class="inline-block px-4 py-1 bg-indigo-100 text-indigo-700 font-bold rounded-full text-xs uppercase tracking-widest border border-indigo-200 mb-4">Proyecto Escolar</span>
+            
+            <h1 class="text-5xl sm:text-7xl font-black title-chrome mb-6 uppercase tracking-wide">
+                Mantenimiento <br> del plantel
+            </h1>
+            
+            <div class="ruled-paper text-left max-w-2xl mx-auto mt-8 font-hand text-slate-700">
+                <p class="font-bold text-inkBlue mb-2" style="line-height: 1;">Integrantes del equipo:</p>
+                <ul class="list-none space-y-2">
+                    <li>✨ Karina Odette Morán Juárez</li>
+                    <li>✨ Carolina Nabor Aguilar</li>
+                    <li>✨ Luz Estrella Trejo Balderas</li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECCIÓN DE VIDEO (TU ARCHIVO LOCAL) -->
+    <section id="video" class="py-12 px-4 max-w-5xl mx-auto">
+        <div class="bg-indigo-900 rounded-[2rem] p-6 shadow-xl border-4 border-indigo-300 relative overflow-hidden">
+            <!-- Etiqueta decorativa -->
+            <div class="absolute top-0 right-10 bg-marginRed text-white font-bold px-4 py-1 rounded-b-lg shadow-md text-sm">
+                Material Multimedia
+            </div>
+
+            <h2 class="text-3xl font-black text-white mb-2"><i class="fa-solid fa-video mr-2 text-indigo-400"></i> Video Documental</h2>
+            <p class="text-indigo-200 text-sm mb-6 font-hand">Evidencia audiovisual de la problemática en el plantel.</p>
+
+            <!-- ========================================== -->
+            <!-- AQUÍ VA TU VIDEO LOCAL                     -->
+            <!-- ========================================== -->
+            <div class="aspect-video bg-black rounded-xl border-4 border-indigo-200/20 overflow-hidden relative group flex items-center justify-center">
+                
+                <video controls class="w-full h-full object-cover">
+                    <!-- INSTRUCCIÓN: Cambia 'tu_video.mp4' por la ruta y nombre exacto de tu video en tu computadora -->
+                    <!-- Ejemplo: <source src="videos/proyecto_baños.mp4" type="video/mp4"> -->
+                    <source src="tu_video.mp4" type="video/mp4">
+                    Tu navegador no soporta el formato de video.
+                </video>
+
+                <!-- Mensaje de ayuda (puedes borrar este div si quieres, es solo para guiarte visualmente si el video no carga) -->
+                <div class="absolute inset-0 bg-slate-900/80 flex flex-col items-center justify-center text-center p-6 pointer-events-none group-hover:opacity-0 transition-opacity">
+                    <i class="fa-solid fa-folder-open text-5xl text-indigo-400 mb-4"></i>
+                    <p class="text-white font-bold text-lg">Espacio Reservado para tu Video Local</p>
+                    <p class="text-indigo-300 text-sm mt-2 font-hand">Abre el código y cambia <code>src="tu_video.mp4"</code> por el nombre real de tu archivo.</p>
+                </div>
+            </div>
+            <!-- ========================================== -->
+
+        </div>
+    </section>
+
+    <!-- FASE 1: DEFINICIÓN Y LLUVIA DE IDEAS -->
+    <section id="fase1" class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center gap-4 mb-10">
+                <span class="text-5xl font-black text-indigo-200">01</span>
+                <h2 class="text-4xl font-black text-inkBlue tracking-wide uppercase">Fase 1</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Definición del problema -->
+                <div class="bg-white border-2 border-indigo-200 rounded-3xl p-8 shadow-paper relative">
+                    <div class="absolute -top-4 -right-4 text-4xl text-indigo-300 float-anim"><i class="fa-solid fa-thumbtack"></i></div>
+                    <h3 class="text-2xl font-bold text-indigo-500 mb-4 font-pop">Definición del problema:</h3>
+                    
+                    <h4 class="font-bold text-inkBlue text-lg mb-2">¿Qué hicimos?</h4>
+                    <ul class="font-hand text-slate-600 space-y-3 mb-6">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-caret-right text-indigo-400 mt-1"></i> Identificamos el problema de los baños en mal estado dentro del plantel.</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-caret-right text-indigo-400 mt-1"></i> Comentamos las principales afectaciones para los estudiantes.</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-caret-right text-indigo-400 mt-1"></i> Compartimos ideas sobre posibles causas y soluciones.</li>
+                    </ul>
+
+                    <h4 class="font-bold text-inkBlue text-lg mb-2">Problemas encontrados:</h4>
+                    <div class="flex flex-wrap gap-2 text-sm font-bold">
+                        <span class="bg-red-100 text-red-700 px-3 py-1 rounded-lg border border-red-200">Falta de limpieza</span>
+                        <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-lg border border-orange-200">Baños dañados</span>
+                        <span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-lg border border-amber-200">Mal olor</span>
+                        <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg border border-blue-200">Falta de agua o papel</span>
+                        <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-lg border border-slate-200">Poco mantenimiento</span>
+                    </div>
+                </div>
+
+                <!-- Lluvia de ideas -->
+                <div class="flex flex-col gap-8">
+                    <div class="bg-pastelPurple border-2 border-indigo-300 rounded-3xl p-6 shadow-paper">
+                        <h3 class="text-2xl font-bold text-inkBlue mb-3 font-pop">Lluvia de ideas:</h3>
+                        <p class="font-bold text-indigo-600 mb-2 text-sm">Ideas principales que surgieron:</p>
+                        <ul class="font-hand text-slate-700 space-y-1">
+                            <li>✨ Mejorar la limpieza diaria.</li>
+                            <li>✨ Reportar daños más rápido.</li>
+                            <li>✨ Hacer conciencia en los estudiantes.</li>
+                            <li>✨ Colocar carteles de higiene.</li>
+                            <li>✨ Pedir mantenimiento constante.</li>
+                        </ul>
+                    </div>
+
+                    <div class="ruled-paper transform rotate-1 hover:rotate-0 transition-transform">
+                        <p class="text-sm font-bold text-indigo-400 uppercase tracking-widest mb-1">Texto breve del proyecto:</p>
+                        <p class="font-hand text-slate-700 leading-relaxed">
+                            Nuestro proyecto busca dar a conocer la problemática de los baños en mal estado en el plantel <strong>COBAQ 1 Satélite</strong>. Queremos identificar las principales causas y proponer soluciones para mejorar la higiene y comodidad de los estudiantes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FASE 2: ANÁLISIS Y CUADRO COMPARATIVO -->
+    <section id="fase2" class="py-16 px-4 bg-white border-y-4 border-pastelLilac">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center justify-end gap-4 mb-10">
+                <h2 class="text-4xl font-black text-inkBlue tracking-wide uppercase">Fase 2</h2>
+                <span class="text-5xl font-black text-indigo-200">02</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                <!-- Análisis -->
+                <div class="bg-pastelLilac/30 rounded-3xl p-8 border-2 border-indigo-100">
+                    <h3 class="text-2xl font-bold text-indigo-600 mb-4 font-pop">Análisis de relatos ambientales:</h3>
+                    
+                    <h4 class="font-bold text-inkBlue mb-2">¿Qué hicimos?</h4>
+                    <ul class="font-hand text-slate-700 space-y-2 mb-6">
+                        <li>🫧 Investigamos opiniones y experiencias de estudiantes.</li>
+                        <li>🫧 Analizamos cómo afecta esta problemática al ambiente escolar.</li>
+                        <li>🫧 Identificamos consecuencias en la salud e higiene.</li>
+                    </ul>
+
+                    <h4 class="font-bold text-inkBlue mb-2 border-t-2 border-indigo-200 pt-4">Conclusiones:</h4>
+                    <div class="space-y-3 font-hand text-slate-700 font-bold">
+                        <p class="bg-white p-3 rounded-xl border border-indigo-100 shadow-sm">🔹 Los estudiantes se sienten incómodos.</p>
+                        <p class="bg-white p-3 rounded-xl border border-indigo-100 shadow-sm">🔹 La mala higiene afecta el ambiente escolar.</p>
+                        <p class="bg-white p-3 rounded-xl border border-indigo-100 shadow-sm">🔹 Se necesita mayor mantenimiento.</p>
+                    </div>
+                </div>
+
+                <!-- Cuadro Comparativo (Interactivo) -->
+                <div>
+                    <h3 class="text-4xl font-black text-center text-inkBlue mb-6 title-chrome tracking-widest">CUADRO <br> COMPARATIVO</h3>
+                    
+                    <div class="bg-white rounded-2xl border-4 border-indigo-300 overflow-hidden shadow-card">
+                        <!-- Header de tabla -->
+                        <div class="grid grid-cols-2 bg-pastelPurple border-b-4 border-indigo-300">
+                            <div class="p-4 text-center font-black text-indigo-600 text-xl font-pop">Antes</div>
+                            <div class="p-4 text-center font-black text-indigo-600 text-xl font-pop border-l-4 border-indigo-300">Después (propuesta)</div>
+                        </div>
+                        <!-- Filas -->
+                        <div class="grid grid-cols-2 font-hand text-lg text-slate-600">
+                            <div class="p-4 text-center border-b border-indigo-100">Baños sucios</div>
+                            <div class="p-4 text-center border-b border-l-4 border-indigo-300 text-indigo-600 font-bold bg-indigo-50/50">Limpieza diaria</div>
+                            
+                            <div class="p-4 text-center border-b border-indigo-100">Mal olor</div>
+                            <div class="p-4 text-center border-b border-l-4 border-indigo-300 text-indigo-600 font-bold bg-indigo-50/50">Mejor higiene</div>
+                            
+                            <div class="p-4 text-center">Falta de Mantenimiento</div>
+                            <div class="p-4 text-center border-l-4 border-indigo-300 text-indigo-600 font-bold bg-indigo-50/50">Mantenimiento constante</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FASE 3 Y 4: ENCUESTAS Y GRÁFICAS -->
+    <section id="fase3" class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            
+            <!-- FASE 3 -->
+            <div class="flex items-center gap-4 mb-10">
+                <span class="text-5xl font-black text-indigo-200">03</span>
+                <h2 class="text-4xl font-black text-inkBlue tracking-wide uppercase">Fase 3: Encuesta</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <div class="ruled-paper bg-pastelPurple/20 border-indigo-300">
+                    <h4 class="font-bold text-indigo-600 text-xl font-pop mb-2">¿Qué hicimos?</h4>
+                    <ul class="font-hand text-slate-700 mb-6">
+                        <li>• Realizamos encuestas a estudiantes.</li>
+                        <li>• Preguntamos su opinión sobre el estado de los baños.</li>
+                        <li>• Reunimos información y estadísticas.</li>
+                    </ul>
+
+                    <h4 class="font-bold text-indigo-600 text-xl font-pop mb-2">Preguntas ejemplo:</h4>
+                    <ul class="font-hand text-slate-700">
+                        <li>❓ ¿Consideras limpios los baños?</li>
+                        <li>❓ ¿Qué problema notas más?</li>
+                        <li>❓ ¿Qué mejorarías?</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-2 border-indigo-200 rounded-3xl p-8 shadow-paper flex flex-col justify-center">
+                    <h4 class="font-bold text-inkBlue text-2xl font-pop mb-6 text-center">Sistematización de datos</h4>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-red-50 p-4 rounded-xl border border-red-100 flex items-center gap-4">
+                            <span class="text-3xl font-black text-red-400">80%</span>
+                            <p class="font-hand text-slate-600">Considera que los baños están en <strong>mal estado.</strong></p>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-xl border border-orange-100 flex items-center gap-4">
+                            <span class="text-3xl font-black text-orange-400">70%</span>
+                            <p class="font-hand text-slate-600">Menciona <strong>falta de limpieza.</strong></p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 flex items-center gap-4">
+                            <span class="text-3xl font-black text-blue-400">60%</span>
+                            <p class="font-hand text-slate-600">Cree que <strong>falta mantenimiento.</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FASE 4: INFOGRAFÍA Y GRÁFICAS -->
+            <div class="flex items-center justify-end gap-4 mb-10">
+                <h2 class="text-4xl font-black text-inkBlue tracking-wide uppercase">Fase 4: Gráficas</h2>
+                <span class="text-5xl font-black text-indigo-200">04</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Temáticas Ambientales -->
+                <div class="lg:col-span-4 bg-pastelLilac rounded-3xl p-6 border-2 border-indigo-200">
+                    <h3 class="text-2xl font-bold text-inkBlue font-pop mb-4 text-center">Temáticas Ambientales</h3>
+                    <ul class="font-hand text-slate-700 space-y-3 bg-white/50 p-4 rounded-2xl">
+                        <li>🌱 Relación con el ambiente escolar</li>
+                        <li>🌱 Higiene</li>
+                        <li>🌱 Salud</li>
+                        <li>🌱 Cuidado de espacios públicos</li>
+                        <li>🌱 Responsabilidad estudiantil</li>
+                    </ul>
+                </div>
+
+                <!-- Gráficas Chart.js -->
+                <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Chart 1: Opinión General -->
+                    <div class="bg-white p-6 rounded-3xl border-2 border-indigo-200 shadow-paper">
+                        <h4 class="font-pop text-indigo-600 text-center mb-4">Opinión del Estado de los Baños</h4>
+                        <div class="relative h-48 w-full flex justify-center">
+                            <canvas id="chartOpinion"></canvas>
+                        </div>
+                        <div class="mt-4 flex justify-center gap-4 text-xs font-bold font-hand">
+                            <span class="text-indigo-600">Mal estado: 70%</span>
+                            <span class="text-slate-400">Regular: 20%</span>
+                            <span class="text-slate-300">Buen estado: 10%</span>
+                        </div>
+                    </div>
+
+                    <!-- Chart 2: Problemas -->
+                    <div class="bg-white p-6 rounded-3xl border-2 border-indigo-200 shadow-paper">
+                        <h4 class="font-pop text-indigo-600 text-center mb-4">Principales Problemas (%)</h4>
+                        <div class="relative h-48 w-full">
+                            <canvas id="chartProblemas"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CONCLUSIÓN -->
+    <section class="py-16 px-4 bg-white border-t-4 border-indigo-200">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-5xl font-black text-center text-inkBlue mb-10 title-chrome tracking-widest">CONCLUSIÓN</h2>
+            
+            <div class="ruled-paper bg-pastelPurple/10 transform -rotate-1 relative">
+                <!-- Pin decorativo -->
+                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-red-400 rounded-full border-2 border-red-600 shadow-md"></div>
+                <div class="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rounded-full opacity-50"></div>
+                
+                <p class="font-hand text-slate-700 text-xl leading-relaxed text-justify mt-2">
+                    En conclusión, los baños en mal estado afectan la comodidad, higiene y salud de los estudiantes. Con este proyecto entendimos la importancia de cuidar las instalaciones y proponer soluciones para mejorar el ambiente escolar.
+                </p>
+                <div class="mt-6 flex justify-end">
+                    <span class="font-bold text-indigo-400 border-b-2 border-indigo-400 font-pop">Atte. Equipo COBAQ 1</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-inkBlue py-8 text-center text-indigo-200 font-hand">
+        <p>Proyecto Escolar - Mantenimiento del Plantel COBAQ 1 Satélite</p>
+        <p class="text-sm mt-2 opacity-70">Desarrollado para exposición de Cultura Digital</p>
+    </footer>
+
+    <!-- INICIALIZACIÓN DE GRÁFICAS -->
+    <script>
+        window.onload = function() {
+            // Configuración global de Chart.js para que coincida con el estilo
+            Chart.defaults.font.family = "'Outfit', sans-serif";
+            Chart.defaults.color = '#64748b';
+
+            // 1. Gráfica de Opinión (Donut)
+            const ctxOpinion = document.getElementById('chartOpinion').getContext('2d');
+            new Chart(ctxOpinion, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Mal estado', 'Regular', 'Buen estado'],
+                    datasets: [{
+                        data: [70, 20, 10],
+                        backgroundColor: [
+                            '#818cf8', // Indigo 400
+                            '#cbd5e1', // Slate 300
+                            '#e2e8f0'  // Slate 200
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: { display: false } // Leyenda personalizada en HTML
+                    }
+                }
+            });
+
+            // 2. Gráfica de Problemas (Barra Horizontal)
+            const ctxProblemas = document.getElementById('chartProblemas').getContext('2d');
+            new Chart(ctxProblemas, {
+                type: 'bar',
+                data: {
+                    labels: ['Falta limpieza', 'Mal olor', 'Falta agua', 'Sin jabón/papel'],
+                    datasets: [{
+                        label: 'Porcentaje %',
+                        data: [80, 60, 50, 40],
+                        backgroundColor: '#a5b4fc', // Indigo 300
+                        borderRadius: 6,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y', // Hace la gráfica horizontal como en la imagen
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { display: false }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { font: { weight: 'bold' } }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>
